@@ -10,8 +10,41 @@ config();
 
 const app = new Hono();
 
-// Middleware для установки правильной кодировки
+// Middleware для установки правильной кодировки и CORS для localhost
 app.use("*", async (c, next) => {
+  // Разрешаем запросы с localhost (добавьте порты/хосты по необходимости)
+  const origin = c.req.header("origin") || "";
+  const allowedOrigins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:4321",
+    "http://127.0.0.1:4321",
+  ];
+
+  if (allowedOrigins.includes(origin)) {
+    c.header("Access-Control-Allow-Origin", origin);
+  }
+
+  c.header("Access-Control-Allow-Methods", "GET,HEAD,POST,PUT,DELETE,OPTIONS");
+  c.header("Access-Control-Allow-Headers", "Content-Type,Authorization");
+
+  // Preflight — возвращаем те же CORS-заголовки
+  if (c.req.method === "OPTIONS") {
+    const preflightHeaders: Record<string, string> = {
+      "Access-Control-Allow-Methods": "GET,HEAD,POST,PUT,DELETE,OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type,Authorization",
+    };
+
+    if (origin) {
+      preflightHeaders["Access-Control-Allow-Origin"] = origin;
+      preflightHeaders["Vary"] = "Origin";
+    }
+
+    return new Response(null, { status: 204, headers: preflightHeaders });
+  }
+
   await next();
   c.header("Content-Type", "application/json; charset=utf-8");
 });
@@ -107,7 +140,7 @@ const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
 // Initialize users on startup
 loadUsers().then((loadedUsers) => {
-  users = loadedUsers;
+  // users = loadedUsers;
   console.log(`Loaded ${users.length} users from ${USERS_FILE}`);
   console.log(`Server is running on port ${port}`);
 
