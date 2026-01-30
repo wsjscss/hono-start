@@ -21,6 +21,7 @@ app.use("*", async (c, next) => {
     "http://127.0.0.1:5173",
     "http://localhost:4321",
     "http://127.0.0.1:4321",
+    "https://astro-start-production.up.railway.app",
   ];
 
   if (allowedOrigins.includes(origin)) {
