@@ -1,22 +1,21 @@
 {
-  "name": "hono-server",
+  "name": "elysia-server",
   "version": "1.0.0",
-  "description": "Minimal Hono server",
+  "description": "Minimal ElysiaJS server",
   "main": "server.ts",
   "type": "module",
   "scripts": {
     "dev": "tsx watch server.ts",
-    "start": "tsx server.ts",
-    "build": "tsc"
+    "start": "tsx server.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "hono": "^4.0.0",
-    "@hono/node-server": "^1.0.0",
-    "tsx": "^4.0.0",
-    "dotenv": "^16.0.0"
+    "@elysiajs/cors": "^1.4.1",
+    "@elysiajs/node": "^1.4.3",
+    "elysia": "^1.4.22",
+    "tsx": "^4.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
@@ -26,4 +25,3 @@
     "node": ">=18.0.0"
   }
 }
-
