@@ -5,12 +5,21 @@ import { node } from "@elysiajs/node";
 interface User {
     id: number;
     name: string;
-    email: string;
+    email?: string;
     age?: number;
 }
 
 const USERS_FILE = "users.json";
-let users: User[] = [];
+let users: User[] = [
+    {
+        id: 1,
+        name: "Дима Хитрый",
+    },
+    {
+        id: 2,
+        name: "Den TheMighty",
+    },
+];
 
 const app = new Elysia({ adapter: node() })
     .use(
